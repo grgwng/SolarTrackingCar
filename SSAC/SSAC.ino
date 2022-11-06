@@ -1,75 +1,85 @@
-int left_motor_pin = 8;
-int right_motor_pin = 9;
+//MOTOR PINS MUST BE ANALOG
+//ANALOG PINS: 3, 5, 6, 9, 10, 11
+int motor1pin1 = 5;
+int motor1pin2 = 6;
 
-int front_lightsensor_pin = 10;
+int motor2pin1 = 10;
+int motor2pin2 = 11;
+
+/*int front_lightsensor_pin = 10;
 int left_lightsensor_pin = 11;
 int back_lightsensor_pin = 12;
-int right_lightsensor_pin = 13;
-
-//PINS
-/*
-Left Motor: 8
-Right Motor: 9
-Front light sensor: 10
-Left light sensor: 11
-Back light sensor: 12
-Right light sensor: 13
-*/
-
-//METHODS
-//pinMode(pin, mode) 
-//mode: INPUT, OUTPUT, or INPUT_PULLUP
-
-//digitalWrite(pin, value)
-//value: HIGH or LOW.
-
-//4 x sun sensors
-//1 x depth sensor
-
-//motor (L) pin D13
-//motor (R) pin D2
+int right_lightsensor_pin = 13;*/
 
 void setup() {
-  // put your setup code here, to run once:
 
-  Serial.begin(9600);
-  pinMode(left_motor_pin, OUTPUT);
-  pinMode(right_motor_pin, OUTPUT);
-  pinMode(front_lightsensor_pin, INPUT);
+  pinMode(motor1pin1, OUTPUT);
+  pinMode(motor1pin2, OUTPUT);
+
+  pinMode(motor2pin1, OUTPUT);
+  pinMode(motor2pin2, OUTPUT);
+
+  /*pinMode(front_lightsensor_pin, INPUT);
   pinMode(left_lightsensor_pin, INPUT);
   pinMode(back_lightsensor_pin, INPUT);
-  pinMode(right_lightsensor_pin, INPUT);
+  pinMode(right_lightsensor_pin, INPUT);*/
   
 
 }
 
-void forward(){
-  Serial.println("Forward");
-  digitalWrite(left_motor_pin, HIGH);
-  digitalWrite(right_motor_pin, HIGH);
+void drive (int power) { //power is a value between 1 - 100
+
+  int analogValue = ((float) power / 100) * 255;
+
+  //analogWrite has value parameter between 0 (always off) and 255 (always on)
+  analogWrite(motor1pin1, analogValue);
+  digitalWrite(motor1pin2, LOW); //pin 2 to zero volts
+
+  analogWrite(motor2pin1, analogValue);
+  digitalWrite(motor2pin2, LOW); //pin 2 to zero volts
+
 }
 
-void right(){
-  Serial.println("Right");
-  digitalWrite(left_motor_pin, HIGH);
-  digitalWrite(right_motor_pin, LOW);
+void reverse (int power) { //power is a value between 1 - 100
+
+  int analogValue = ((float) power / 100) * 255;
+
+  //analogWrite has value parameter between 0 (always off) and 255 (always on)
+  digitalWrite(motor1pin1, LOW); //pin 1 to zero volts
+  analogWrite(motor1pin2, analogValue);
+
+  digitalWrite(motor2pin1, LOW); //pin 1 to zero volts
+  analogWrite(motor2pin2, analogValue);
+
 }
 
-void left(){
-  Serial.println("Left");
-  digitalWrite(left_motor_pin, LOW);
-  digitalWrite(right_motor_pin, HIGH);
+void left() {
+
 }
 
-void stop(){
-  Serial.println("Stop");
-  digitalWrite(left_motor_pin, LOW);
-  digitalWrite(right_motor_pin, LOW);
+void right() {
+
 }
 
+void stop() {
 
+  //IF THIS DOESN'T WORK, TRY SETTING BOTH PINS TO "HIGH"
+
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, LOW);
+
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, LOW);
+
+}
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  //SOME TEST CODE
+
+  drive(50);
+  delay(2000);
+
+  reverse(50);
+  delay(2000);
 
 }
