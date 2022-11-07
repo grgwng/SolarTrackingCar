@@ -10,13 +10,10 @@ int motor2pin1 = 10;
 int motor2pin2 = 11;
 
 //front ultrasonic sensor
-int sensor1trig = 0;
-int sensor1echo = 0;
-
-/*int front_lightsensor_pin = 10;
-int left_lightsensor_pin = 11;
-int back_lightsensor_pin = 12;
-int right_lightsensor_pin = 13;*/
+int sensor1vcc = 1;
+int sensor1trig = 2;
+int sensor1echo = 3;
+int sensor1ground = 4;
 
 void setup() {
 
@@ -33,13 +30,10 @@ void setup() {
   //front ultrasonic sensor
   pinMode(sensor1trig, OUTPUT);
   pinMode(sensor1echo, INPUT);
-
-
-  /*pinMode(front_lightsensor_pin, INPUT);
-  pinMode(left_lightsensor_pin, INPUT);
-  pinMode(back_lightsensor_pin, INPUT);
-  pinMode(right_lightsensor_pin, INPUT);*/
-  drive(100);
+  pinMode(sensor1vcc, OUTPUT); //power pins
+  pinMode(sensor1ground, OUTPUT);
+  digitalWrite(sensor1vcc, HIGH);
+  digitalWrite(sensor1ground, LOW);
 
 }
 
@@ -110,6 +104,9 @@ void stop() {
 
 int distanceFront () {
 
+  //NOTE: When object is too close or it doesn't detect anything,
+  //this function returns 1177 (by experimentation)
+
   int distance = 0;
   long duration = 0;
 
@@ -128,6 +125,7 @@ int distanceFront () {
   // Calculating the distance
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (to and back)
 
+  //FOR DEBUGGING PURPOSES
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
@@ -138,6 +136,7 @@ int distanceFront () {
 
 void loop() {
   //SOME TEST CODE
-
+  distanceFront();
+  delay(1000);
 
 }
