@@ -1,8 +1,11 @@
 //MOTOR PINS MUST BE ANALOG
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
+
+//front right motor
 int motor1pin1 = 5;
 int motor1pin2 = 6;
 
+//back left motor
 int motor2pin1 = 10;
 int motor2pin2 = 11;
 
@@ -23,7 +26,7 @@ void setup() {
   pinMode(left_lightsensor_pin, INPUT);
   pinMode(back_lightsensor_pin, INPUT);
   pinMode(right_lightsensor_pin, INPUT);*/
-  
+  drive(100);
 
 }
 
@@ -44,7 +47,6 @@ void reverse (int power) { //power is a value between 1 - 100
 
   int analogValue = ((float) power / 100) * 255;
 
-  //analogWrite has value parameter between 0 (always off) and 255 (always on)
   digitalWrite(motor1pin1, LOW); //pin 1 to zero volts
   analogWrite(motor1pin2, analogValue);
 
@@ -53,11 +55,31 @@ void reverse (int power) { //power is a value between 1 - 100
 
 }
 
-void left() {
+void left (int power) {
+
+  int analogValue = ((float) power / 100) * 255;
+
+  //front right motor drive
+  analogWrite(motor1pin1, analogValue);
+  digitalWrite(motor1pin2, LOW);
+
+  //back left motor reverse
+  digitalWrite(motor2pin1, LOW);
+  analogWrite(motor2pin2, analogValue);
 
 }
 
-void right() {
+void right (int power) {
+
+  int analogValue = ((float) power / 100) * 255;
+
+  //front right motor reverse
+  digitalWrite(motor1pin1, LOW); //pin 1 to zero volts
+  analogWrite(motor1pin2, analogValue);
+
+  //back left motor drive
+  analogWrite(motor2pin1, analogValue);
+  digitalWrite(motor2pin2, LOW); //pin 2 to zero volts
 
 }
 
@@ -76,10 +98,5 @@ void stop() {
 void loop() {
   //SOME TEST CODE
 
-  drive(50);
-  delay(2000);
-
-  reverse(50);
-  delay(2000);
 
 }
