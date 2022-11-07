@@ -9,6 +9,10 @@ int motor1pin2 = 6;
 int motor2pin1 = 10;
 int motor2pin2 = 11;
 
+//front ultrasonic sensor
+int sensor1trig = 0;
+int sensor1echo = 0;
+
 /*int front_lightsensor_pin = 10;
 int left_lightsensor_pin = 11;
 int back_lightsensor_pin = 12;
@@ -16,11 +20,20 @@ int right_lightsensor_pin = 13;*/
 
 void setup() {
 
+  Serial.begin(9600);
+
+  //front right motor
   pinMode(motor1pin1, OUTPUT);
   pinMode(motor1pin2, OUTPUT);
 
+  //back left motor
   pinMode(motor2pin1, OUTPUT);
   pinMode(motor2pin2, OUTPUT);
+
+  //front ultrasonic sensor
+  pinMode(sensor1trig, OUTPUT);
+  pinMode(sensor1echo, INPUT);
+
 
   /*pinMode(front_lightsensor_pin, INPUT);
   pinMode(left_lightsensor_pin, INPUT);
@@ -92,6 +105,34 @@ void stop() {
 
   digitalWrite(motor2pin1, LOW);
   digitalWrite(motor2pin2, LOW);
+
+}
+
+int distanceFront () {
+
+  int distance = 0;
+  long duration = 0;
+
+  // Clears the trigPin condition
+  digitalWrite(sensor1trig, LOW);
+  delayMicroseconds(2);
+
+  // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
+  digitalWrite(sensor1trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(sensor1trig, LOW);
+  
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(sensor1echo, HIGH);
+
+  // Calculating the distance
+  distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (to and back)
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  return distance;
 
 }
 
