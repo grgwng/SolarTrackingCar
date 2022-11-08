@@ -3,7 +3,7 @@
 //MOTOR PINS MUST BE ANALOG
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-int stepsPerRevolution = 8;
+int stepsPerRevolution = 512; //rotor has 8 steps, motor has 1/64 gear reduction
 //left stepper motor
 int motor1pin1 = 10;
 int motor1pin2 = 11;
@@ -15,9 +15,7 @@ int motor2pin2 = 0;
 int motor2pin3 = 0;
 int motor2pin4 = 0;
 
-
-
-Stepper myStepper(stepsPerRevolution, motor1pin1, motor1pin2, motor1pin3, motor1pin4);
+Stepper motor1(stepsPerRevolution, motor1pin1, motor1pin2, motor1pin3, motor1pin4);
 
 //front ultrasonic sensor
 int sensor1vcc = 1;
@@ -26,12 +24,11 @@ int sensor1echo = 3;
 int sensor1ground = 4;
 
 void setup() {
-  myStepper.setSpeed(60);
+
   Serial.begin(9600);
 
-  //front right motor
-  pinMode(motor1pin1, OUTPUT);
-  pinMode(motor1pin2, OUTPUT);
+  //left motor
+  motor1.setSpeed(60);
 
   //front ultrasonic sensor
   pinMode(sensor1trig, OUTPUT);
@@ -45,8 +42,8 @@ void setup() {
 
 void drive () {
 
-  //512 steps in a full revolution (1/64 geared down reduction)
-  myStepper.step(stepsPerRevolution * 64);
+  //rotates one revolution (512 steps)
+  motor1.step(stepsPerRevolution);
 
 }
 
