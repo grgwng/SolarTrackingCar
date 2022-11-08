@@ -1,13 +1,15 @@
+#include <Stepper.h>
+
 //MOTOR PINS MUST BE ANALOG
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-//front right motor
-int motor1pin1 = 5;
-int motor1pin2 = 6;
+//left stepper motor
+int motor1pin1 = 10;
+int motor1pin2 = 11;
+int motor1pin3 = 12;
+int motor1pin4 = 13;
 
-//back left motor
-int motor2pin1 = 10;
-int motor2pin2 = 11;
+Stepper myStepper(200, motor1pin1, motor1pin2, motor1pin3, motor1pin4);
 
 //front ultrasonic sensor
 int sensor1vcc = 1;
@@ -16,16 +18,12 @@ int sensor1echo = 3;
 int sensor1ground = 4;
 
 void setup() {
-
+  myStepper.setSpeed(60);
   Serial.begin(9600);
 
   //front right motor
   pinMode(motor1pin1, OUTPUT);
   pinMode(motor1pin2, OUTPUT);
-
-  //back left motor
-  pinMode(motor2pin1, OUTPUT);
-  pinMode(motor2pin2, OUTPUT);
 
   //front ultrasonic sensor
   pinMode(sensor1trig, OUTPUT);
@@ -37,68 +35,27 @@ void setup() {
 
 }
 
-void drive (int power) { //power is a value between 1 - 100
+void drive () {
 
-  int analogValue = ((float) power / 100) * 255;
-
-  //analogWrite has value parameter between 0 (always off) and 255 (always on)
-  analogWrite(motor1pin1, analogValue);
-  digitalWrite(motor1pin2, LOW); //pin 2 to zero volts
-
-  analogWrite(motor2pin1, analogValue);
-  digitalWrite(motor2pin2, LOW); //pin 2 to zero volts
+  //2000 steps is a full revolution
+  myStepper.step(2000);
 
 }
 
 void reverse (int power) { //power is a value between 1 - 100
 
-  int analogValue = ((float) power / 100) * 255;
-
-  digitalWrite(motor1pin1, LOW); //pin 1 to zero volts
-  analogWrite(motor1pin2, analogValue);
-
-  digitalWrite(motor2pin1, LOW); //pin 1 to zero volts
-  analogWrite(motor2pin2, analogValue);
-
 }
 
 void left (int power) {
-
-  int analogValue = ((float) power / 100) * 255;
-
-  //front right motor drive
-  analogWrite(motor1pin1, analogValue);
-  digitalWrite(motor1pin2, LOW);
-
-  //back left motor reverse
-  digitalWrite(motor2pin1, LOW);
-  analogWrite(motor2pin2, analogValue);
 
 }
 
 void right (int power) {
 
-  int analogValue = ((float) power / 100) * 255;
-
-  //front right motor reverse
-  digitalWrite(motor1pin1, LOW); //pin 1 to zero volts
-  analogWrite(motor1pin2, analogValue);
-
-  //back left motor drive
-  analogWrite(motor2pin1, analogValue);
-  digitalWrite(motor2pin2, LOW); //pin 2 to zero volts
-
 }
 
 void stop() {
 
-  //IF THIS DOESN'T WORK, TRY SETTING BOTH PINS TO "HIGH"
-
-  digitalWrite(motor1pin1, LOW);
-  digitalWrite(motor1pin2, LOW);
-
-  digitalWrite(motor2pin1, LOW);
-  digitalWrite(motor2pin2, LOW);
 
 }
 
@@ -136,7 +93,8 @@ int distanceFront () {
 
 void loop() {
   //SOME TEST CODE
-  distanceFront();
+
+  drive();
   delay(1000);
 
 }
