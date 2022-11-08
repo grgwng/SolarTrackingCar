@@ -3,13 +3,21 @@
 //MOTOR PINS MUST BE ANALOG
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
+int stepsPerRevolution = 8;
 //left stepper motor
 int motor1pin1 = 10;
 int motor1pin2 = 11;
 int motor1pin3 = 12;
 int motor1pin4 = 13;
+//right stepper motor
+int motor2pin1 = 0;
+int motor2pin2 = 0;
+int motor2pin3 = 0;
+int motor2pin4 = 0;
 
-Stepper myStepper(200, motor1pin1, motor1pin2, motor1pin3, motor1pin4);
+
+
+Stepper myStepper(stepsPerRevolution, motor1pin1, motor1pin2, motor1pin3, motor1pin4);
 
 //front ultrasonic sensor
 int sensor1vcc = 1;
@@ -37,8 +45,8 @@ void setup() {
 
 void drive () {
 
-  //2000 steps is a full revolution
-  myStepper.step(2000);
+  //512 steps in a full revolution (1/64 geared down reduction)
+  myStepper.step(stepsPerRevolution * 64);
 
 }
 
