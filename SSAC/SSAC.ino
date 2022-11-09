@@ -1,5 +1,5 @@
 #include <Stepper.h>
-
+//Hi JOhn
 //MOTOR PINS MUST BE ANALOG
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
