@@ -37,10 +37,10 @@ void drive (int power) { //power takes value between 1-100 (inclusive)
 
   if (power > 100 && power < 1) {
     Serial.println("power out of bounds in DRIVE");
-    abort()
+    abort();
   }
 
-  int analogValue = 255 * ((float) 100.0 / power)
+  int analogValue = 255 * ((float) 100.0 / power);
 
   analogWrite(backmotorpin1, analogValue);
   digitalWrite(backmotorpin2, LOW);
@@ -51,10 +51,10 @@ void reverse (int power) {
 
   if (power > 100 && power < 1) {
     Serial.println("power out of bounds in REVERSE");
-    abort()
+    abort();
   }
 
-  int analogValue = 255 * ((float) 100.0 / power)
+  int analogValue = 255 * ((float) 100.0 / power);
 
   digitalWrite(backmotorpin1, LOW);
   analogWrite(backmotorpin2, analogValue);
