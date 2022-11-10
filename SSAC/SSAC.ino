@@ -66,6 +66,9 @@ void stop() {
   digitalWrite(backmotorpin1, LOW);
   digitalWrite(backmotorpin2, LOW);
 
+  digitalWrite(frontmotorpin1, LOW);
+  digitalWrite(frontmotorpin2, LOW);
+
 }
 
 void left () {
