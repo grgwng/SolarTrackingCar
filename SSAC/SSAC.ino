@@ -1,6 +1,12 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
+int backmotorpin1 = 10;
+int backmotorpin2 = 11;
+
+int frontmotorpin1 = 12;
+int frontmotorpin2 = 13;
+
 //front ultrasonic sensor
 int sensor1vcc = 1;
 int sensor1trig = 2;
