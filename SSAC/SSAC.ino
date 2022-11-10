@@ -1,10 +1,10 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-int backmotorpin1 = 10;
+int backmotorpin1 = 10; //power motor
 int backmotorpin2 = 11;
 
-int frontmotorpin1 = 12;
+int frontmotorpin1 = 12; //steering motor
 int frontmotorpin2 = 13;
 
 //front ultrasonic sensor
@@ -17,6 +17,12 @@ void setup() {
 
   Serial.begin(9600);
 
+  //motors
+  pinMode(backmotorpin1, OUTPUT);
+  pinMode(backmotorpin2, OUTPUT);
+  pinMode(frontmotorpin1, OUTPUT);
+  pinMode(frontmotorpin2, OUTPUT);
+
   //front ultrasonic sensor
   pinMode(sensor1trig, OUTPUT);
   pinMode(sensor1echo, INPUT);
@@ -27,24 +33,59 @@ void setup() {
 
 }
 
-void drive () { //implement speed control with analog pins?
+void drive (int power) { //power takes value between 1-100 (inclusive)
+
+  if (power > 100 && power < 1) {
+    Serial.println("power out of bounds in DRIVE");
+    abort()
+  }
+
+  int analogValue = 255 * ((float) 100.0 / power)
+
+  analogWrite(backmotorpin1, analogValue);
+  digitalWrite(backmotorpin2, LOW);
 
 }
 
-void reverse () {
+void reverse (int power) {
 
-}
+  if (power > 100 && power < 1) {
+    Serial.println("power out of bounds in REVERSE");
+    abort()
+  }
 
-void left () {
+  int analogValue = 255 * ((float) 100.0 / power)
 
-}
-
-void right () {
+  digitalWrite(backmotorpin1, LOW);
+  analogWrite(backmotorpin2, analogValue);
 
 }
 
 void stop() {
 
+  digitalWrite(backmotorpin1, LOW);
+  digitalWrite(backmotorpin2, LOW);
+
+}
+
+void left () {
+
+  digitalWrite(frontmotorpin1, HIGH);
+  digitalWrite(frontmotorpin2, LOW);
+
+}
+
+void right () {
+
+  digitalWrite(frontmotorpin1, LOW);
+  digitalWrite(frontmotorpin2, HIGH);
+
+}
+
+void stopTurn() {
+
+  digitalWrite(frontmotorpin1, LOW);
+  digitalWrite(frontmotorpin2, LOW);
 
 }
 
