@@ -22,6 +22,10 @@ void setup() {
   pinMode(backmotorpin2, OUTPUT);
   pinMode(frontmotorpin1, OUTPUT);
   pinMode(frontmotorpin2, OUTPUT);
+  digitalWrite(backmotorpin1, LOW);
+  digitalWrite(backmotorpin2, LOW);
+  digitalWrite(frontmotorpin1, LOW);
+  digitalWrite(frontmotorpin2, LOW);
 
   //front ultrasonic sensor
   pinMode(sensor1trig, OUTPUT);
@@ -33,28 +37,28 @@ void setup() {
 
 }
 
-void drive (int power) { //power takes value between 1-100 (inclusive)
+void drive (int power) { //power takes value between 1-100 (inclusive). MINIMUM POWER SHOULD BE 50 OR ELSE MOTOR STALL!
 
-  if (power > 100 && power < 1) {
+  if (power > 100 || power < 1) {
     Serial.println("power out of bounds in DRIVE");
     abort();
   }
 
-  int analogValue = 255 * ((float) 100.0 / power);
+  int analogValue = 255 * (power / 100.0);
 
   analogWrite(backmotorpin1, analogValue);
   digitalWrite(backmotorpin2, LOW);
 
 }
 
-void reverse (int power) {
+void reverse (int power) { //power takes value between 1-100 (inclusive). MINIMUM POWER SHOULD BE 50 OR ELSE MOTOR STALL!
 
-  if (power > 100 && power < 1) {
+  if (power > 100 || power < 1) {
     Serial.println("power out of bounds in REVERSE");
     abort();
   }
 
-  int analogValue = 255 * ((float) 100.0 / power);
+  int analogValue = 255 * (power / 100.0);
 
   digitalWrite(backmotorpin1, LOW);
   analogWrite(backmotorpin2, analogValue);
@@ -127,20 +131,14 @@ int distanceFront () {
 
 void loop() {
 
-  //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
-  if (distanceFront() > 10) {
-    drive();
-  }
+  drive(50);
 
-  else {
-    stop();
-    delay(500);
+  delay (2000);
 
-    reverse();
-    delay(500); //how many seconds to move backwards?
+  stop();
 
-    left();
-    delay(500);
-  }
+  delay(2000);
+
+
 
 }
