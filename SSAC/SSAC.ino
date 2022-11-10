@@ -137,7 +137,7 @@ int distanceFront () {
 }
 
 
-int distanceFiltered(){
+int distanceFiltered() { //returns cm
 
   //Calculate average over 5 most recent scans
   int dist = distanceFront();
@@ -164,22 +164,21 @@ int distanceFiltered(){
 
 void loop() {
 
-  drive(50);
+  //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
+distanceFront();
+delay(500);
+  /*if(distanceFiltered() < 5){ //VERY CLOSE
+    stop();
+    delay(1000);
+    reverse(50);
 
-  delay (2000);
-
-  stop();
-
-  delay(2000);
-
-
-
-
-
-
-
-
-
-
-
+  }else if(distanceFiltered() < 15){ //CLOSE
+    left();
+    delay(500);
+    drive(50);
+    
+  }else{ //FAR
+    stopTurn();
+    drive(100);
+  }*/
 }
