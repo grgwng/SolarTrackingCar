@@ -1,21 +1,5 @@
-#include <Stepper.h>
-
-//MOTOR PINS MUST BE ANALOG
+//MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
-
-int stepsPerRevolution = 512; //rotor has 8 steps, motor has 1/64 gear reduction
-//left stepper motor
-int motor1pin1 = 10;
-int motor1pin2 = 11;
-int motor1pin3 = 12;
-int motor1pin4 = 13;
-//right stepper motor
-int motor2pin1 = 0;
-int motor2pin2 = 0;
-int motor2pin3 = 0;
-int motor2pin4 = 0;
-
-Stepper motor1(stepsPerRevolution, motor1pin1, motor1pin2, motor1pin3, motor1pin4);
 
 //front ultrasonic sensor
 int sensor1vcc = 1;
@@ -27,9 +11,6 @@ void setup() {
 
   Serial.begin(9600);
 
-  //left motor
-  motor1.setSpeed(60);
-
   //front ultrasonic sensor
   pinMode(sensor1trig, OUTPUT);
   pinMode(sensor1echo, INPUT);
@@ -40,22 +21,19 @@ void setup() {
 
 }
 
-void drive () {
-
-  //rotates one revolution (512 steps)
-  motor1.step(stepsPerRevolution);
+void drive () { //implement speed control with analog pins?
 
 }
 
-void reverse (int power) { //power is a value between 1 - 100
+void reverse () {
 
 }
 
-void left (int power) {
+void left () {
 
 }
 
-void right (int power) {
+void right () {
 
 }
 
@@ -64,6 +42,7 @@ void stop() {
 
 }
 
+//returns distance to object in cm
 int distanceFront () {
 
   //NOTE: When object is too close or it doesn't detect anything,
@@ -97,9 +76,21 @@ int distanceFront () {
 }
 
 void loop() {
-  //SOME TEST CODE
 
-  drive();
-  delay(1000);
+  //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
+  if (distanceFront() > 10) {
+    drive();
+  }
+
+  else {
+    stop();
+    delay(500);
+
+    reverse();
+    delay(500); //how many seconds to move backwards?
+
+    left();
+    delay(500);
+  }
 
 }
