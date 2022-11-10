@@ -13,6 +13,9 @@ int sensor1trig = 2;
 int sensor1echo = 3;
 int sensor1ground = 4;
 
+int currDistance = 0;
+int distReadings[5] = {15, 15, 15, 15, 15};
+
 void setup() {
 
   Serial.begin(9600);
@@ -30,6 +33,8 @@ void setup() {
   pinMode(sensor1ground, OUTPUT);
   digitalWrite(sensor1vcc, HIGH);
   digitalWrite(sensor1ground, LOW);
+
+  
 
 }
 
@@ -125,22 +130,49 @@ int distanceFront () {
 
 }
 
+
+int distanceFiltered(){
+
+  //Calculate average over 5 most recent scans
+  int dist = distanceFront();
+
+  int sum = 0;
+  for(int i = 0; i <= 3; i++){
+    distReadings[i] = distReadings[i+1];
+    sum+=distReadings[i];
+  }
+  distReadings[5] = dist;
+  sum+= dist;
+
+  return sum;
+
+}
+
+
+
 void loop() {
 
   //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
-  if (distanceFront() > 10) {
-    drive();
-  }
 
-  else {
-    stop();
-    delay(500);
+  if(distanceFiltered() < 5){ //VERY CLOSE
+    stopTurn();
+    reverse(50);
 
-    reverse();
-    delay(500); //how many seconds to move backwards?
-
+  }else if(distanceFiltered() < 15){ //CLOSE
     left();
-    delay(500);
+    drive(10);
+    
+  }else{ //FAR
+    stopTurn();
+    drive(50);
   }
+
+
+
+
+
+
+
+
 
 }
