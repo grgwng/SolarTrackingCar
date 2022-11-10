@@ -1,6 +1,8 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
+#define READINGNUM 5
+
 int backmotorpin1 = 10; //power motor
 int backmotorpin2 = 11;
 
@@ -14,7 +16,7 @@ int sensor1echo = 3;
 int sensor1ground = 4;
 
 int currDistance = 0;
-int distReadings[5] = {15, 15, 15, 15, 15};
+int distReadings[READINGNUM] = {15, 15, 15, 15, 15};
 
 void setup() {
 
@@ -137,12 +139,18 @@ int distanceFiltered(){
   int dist = distanceFront();
 
   int sum = 0;
-  for(int i = 0; i <= 3; i++){
+  for(int i = 0; i <= READINGNUM-2; i++){
     distReadings[i] = distReadings[i+1];
     sum+=distReadings[i];
   }
-  distReadings[5] = dist;
+  distReadings[READINGNUM-1] = dist;
   sum+= dist;
+
+  sum /= READINGNUM;
+  
+  Serial.print("Avg Distance: ");
+  Serial.print(sum);
+  Serial.println(" cm");
 
   return sum;
 
