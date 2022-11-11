@@ -60,7 +60,7 @@ void drive (int power) { //power takes value between 1-100 (inclusive)
 
 void reverse (int power) {
 
-  if (power > 100 && power < 1) {
+  if (power > 100 || power < 1) {
     Serial.println("power out of bounds in REVERSE");
     abort();
   }
