@@ -191,44 +191,44 @@ void loop() {
 
   
   if(distanceFiltered() >= CLIPPINGDIST){
-    drive(100);
-    delay(500);
+    drive(60);
+    delay(150);
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
     reverse(100);
-    delay(500);
+    delay(500); 
     stop();
-    reverse(100);
+    reverse(60);
     left();
-    delay(500);
+    delay(150);
 
     stop();
-    delay(500);
+    delay(150);
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    drive(100);
+    drive(60);
     right();
-    delay(500);
+    delay(150);
     stop();
-    delay(500);
-    reverse(100);
+    delay(150);
+    reverse(60);
     right();
-    delay(500);
+    delay(150);
     stop();
-    delay(500);
+    delay(150);
 
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    drive(100);
+    drive(60);
     left();
-    delay(500);
+    delay(150);
 
-    drive(100);
+    drive(60);
     right();
-    delay(375);
+    delay(150);
   }
 
 
