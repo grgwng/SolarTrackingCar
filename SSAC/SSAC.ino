@@ -137,7 +137,7 @@ int distanceFront () {
 
 }
 
-
+// For the sensor reading fluctuation (1177)
 int distanceFiltered(){
 
   int x = distanceFront();
