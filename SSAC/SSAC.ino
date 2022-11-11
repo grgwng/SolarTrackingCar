@@ -1,7 +1,7 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-#define CLIPPINGDIST 45
+#define CLIPPINGDIST 55
 
 #define READINGNUM 5
 
@@ -196,15 +196,17 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    reverse(60);
+    reverse(100);
     delay(500); 
     drive(60);
     delay(50);
     stop();
     delay(500);
-    reverse(60);
+
     left();
+    reverse(80);
     delay(500);
+
     drive(60);
     delay(50);
     stop();
@@ -213,16 +215,19 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    drive(60);
     left();
+    drive(80);
     delay(500);
+
     reverse(60);
     delay(50);
     stop();
     delay(500);
-    reverse(60);
+
     right();
+    reverse(80);
     delay(500);
+
     drive(60);
     delay(50);
     stop();
@@ -231,9 +236,10 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    drive(60);
     right();
+    drive(80);
     delay(500);
+
     reverse(60);
     delay(50);
     stop();
@@ -241,10 +247,10 @@ void loop() {
 
     drive(60);
     right();
-    delay(225);
+    delay(500);
   }
 
-
+delay (1000);
 
 
 
