@@ -13,10 +13,10 @@ int frontmotorpin2 = 13;
 // int turningDistance = 30; //minimum turning distance from wall (cm)
 
 //front ultrasonic sensor
-int sensor1vcc = 1;
-int sensor1trig = 2;
-int sensor1echo = 3;
-int sensor1ground = 4;
+int sensor1vcc = 4;
+int sensor1trig = 3;
+int sensor1echo = 2;
+int sensor1ground = 1;
 
 int currDistance = 0;
 int distReadings[READINGNUM] = {15, 15, 15, 15, 15};
@@ -191,7 +191,7 @@ void loop() {
 
   
   if(distanceFiltered() >= CLIPPINGDIST){
-    forward(100);
+    drive(100);
     delay(500);
   }
 
@@ -208,7 +208,7 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    forward(100);
+    drive(100);
     right();
     delay(500);
     stop();
@@ -222,11 +222,11 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    forward(100);
+    drive(100);
     left();
     delay(500);
 
-    forward(100);
+    drive(100);
     right();
     delay(375);
   }
