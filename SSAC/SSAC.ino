@@ -196,39 +196,52 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    reverse(100);
+    reverse(60);
     delay(500); 
+    forward(60);
+    delay(50);
     stop();
+    delay(500);
     reverse(60);
     left();
-    delay(150);
-
+    delay(500);
+    forward(60);
+    delay(50);
     stop();
-    delay(150);
-  }
-
-  if(distanceFiltered() < CLIPPINGDIST){
-    drive(60);
-    right();
-    delay(150);
-    stop();
-    delay(150);
-    reverse(60);
-    right();
-    delay(150);
-    stop();
-    delay(150);
-
+    delay(500);
+    
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
     drive(60);
     left();
-    delay(150);
+    delay(500);
+    reverse(60);
+    delay(50);
+    stop();
+    delay(500);
+    reverse(60);
+    right();
+    delay(500);
+    forward(60);
+    delay(50);
+    stop();
+    delay(500);
+
+  }
+
+  if(distanceFiltered() < CLIPPINGDIST){
+    drive(60);
+    right();
+    delay(500);
+    reverse(60);
+    delay(50);
+    stop();
+    delay(500);
 
     drive(60);
     right();
-    delay(150);
+    delay(225);
   }
 
 
