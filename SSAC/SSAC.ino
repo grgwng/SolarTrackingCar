@@ -162,6 +162,15 @@ void loop() {
 
   //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
 
+
+  drive(100);
+  delay(1000);
+  stop();
+  reverse(100);
+  delay(1000);
+  stop();
+
+  /*
   if(distanceFiltered() < 5){ //VERY CLOSE
     stopTurn();
     reverse(50);
@@ -174,6 +183,7 @@ void loop() {
     stopTurn();
     drive(50);
   }
+  */
 
 
 
