@@ -198,14 +198,14 @@ void loop() {
   if(distanceFiltered() < CLIPPINGDIST){
     reverse(60);
     delay(500); 
-    forward(60);
+    drive(60);
     delay(50);
     stop();
     delay(500);
     reverse(60);
     left();
     delay(500);
-    forward(60);
+    drive(60);
     delay(50);
     stop();
     delay(500);
@@ -223,7 +223,7 @@ void loop() {
     reverse(60);
     right();
     delay(500);
-    forward(60);
+    drive(60);
     delay(50);
     stop();
     delay(500);
