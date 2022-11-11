@@ -178,7 +178,7 @@ int distanceFiltered(){
 void loop() {
   
   if(distanceFiltered() >= CLIPPINGDIST){
-    forward(100);
+    drive(100);
     delay(500);
   }
 
@@ -195,7 +195,7 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    forward(100);
+    drive(100);
     right();
     delay(500);
     stop();
@@ -209,11 +209,11 @@ void loop() {
   }
 
   if(distanceFiltered() < CLIPPINGDIST){
-    forward(100);
+    drive(100);
     left();
     delay(500);
 
-    forward(100);
+    drive(100);
     right();
     delay(750);
   }
