@@ -18,6 +18,7 @@ int sensor1ground = 4;
 
 int currDistance = 0;
 int distReadings[READINGNUM] = {15, 15, 15, 15, 15};
+int pastReading = 0;
 
 void setup() {
 
@@ -129,6 +130,7 @@ int distanceFront () {
   Serial.print(distance);
   Serial.println(" cm");
 
+  
   return distance;
 
 }
@@ -136,6 +138,17 @@ int distanceFront () {
 
 int distanceFiltered(){
 
+  int x = distanceFront();
+  if(x > 1000){
+    return pastReading;
+
+  }else{
+    pastReading = x;
+    return pastReading;
+
+  }
+
+/*
   //Calculate average over 5 most recent scans
   int dist = distanceFront();
 
@@ -152,8 +165,9 @@ int distanceFiltered(){
   Serial.print("Avg Distance: ");
   Serial.print(sum);
   Serial.println(" cm");
+  */
 
-  return sum;
+  // return sum;
 
 }
 
@@ -162,8 +176,8 @@ int distanceFiltered(){
 void loop() {
 
   //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
-  left();
-  drive(100);
+
+   
 
   /*
   if(distanceFiltered() < 5){ //VERY CLOSE
