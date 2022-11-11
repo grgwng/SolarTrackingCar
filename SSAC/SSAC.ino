@@ -8,6 +8,7 @@ int backmotorpin2 = 11;
 
 int frontmotorpin1 = 12; //steering motor
 int frontmotorpin2 = 13;
+int turningDistance = 30; //minimum turning distance from wall (cm)
 
 //front ultrasonic sensor
 int sensor1vcc = 1;
@@ -161,14 +162,8 @@ int distanceFiltered(){
 void loop() {
 
   //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
-
-
+  left();
   drive(100);
-  delay(1000);
-  stop();
-  reverse(100);
-  delay(1000);
-  stop();
 
   /*
   if(distanceFiltered() < 5){ //VERY CLOSE
