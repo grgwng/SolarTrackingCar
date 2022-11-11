@@ -1,6 +1,8 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
+#define CLIPPINGDIST 45
+
 #define READINGNUM 5
 
 int backmotorpin1 = 10; //power motor
@@ -8,7 +10,7 @@ int backmotorpin2 = 11;
 
 int frontmotorpin1 = 12; //steering motor
 int frontmotorpin2 = 13;
-int turningDistance = 30; //minimum turning distance from wall (cm)
+// int turningDistance = 30; //minimum turning distance from wall (cm)
 
 //front ultrasonic sensor
 int sensor1vcc = 1;
@@ -174,10 +176,57 @@ int distanceFiltered(){
 
 
 void loop() {
+  
+  if(distanceFiltered() >= CLIPPINGDIST){
+    forward(100);
+    delay(500);
+  }
+
+  if(distanceFiltered() < CLIPPINGDIST){
+    reverse(100);
+    delay(500); 
+    stop();
+    reverse(100);
+    left();
+    delay(500);
+
+    stop();
+    delay(500);
+  }
+
+  if(distanceFiltered() < CLIPPINGDIST){
+    forward(100);
+    right();
+    delay(500);
+    stop();
+    delay(500);
+    reverse(100);
+    right();
+    delay(500);
+    stop();
+    delay(500);
+
+  }
+
+  if(distanceFiltered() < CLIPPINGDIST){
+    forward(100);
+    left();
+    delay(500);
+
+    forward(100);
+    right();
+    delay(750);
+  }
+
+
+
+
+
+  
 
   //we must implement checks for false readings (i.e. taking the average reading over x milliseconds)
 
-   
+
 
   /*
   if(distanceFiltered() < 5){ //VERY CLOSE
