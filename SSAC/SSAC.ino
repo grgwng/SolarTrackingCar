@@ -177,6 +177,19 @@ int distanceFiltered(){
 
 void loop() {
   
+
+  // These next 4 if statements make up our main algorithm. It has 4 steps. Each step is conditional 
+  // Only if the reading  is still less than the clipping distance will the next step go. 
+  // Step 1 = Checks if there is space infornt to drive, if there is, drive forward. 
+  // These next steps will only intiate if there is an object detected.  
+  // Step 3 = Orients it self to check to its right. 
+  // Step 4 = Orients it self to check to its left. 
+  // Step 5 = Because there is an object to its left right and middle, The Car will do a 180, and check 
+  // behind it. Then the whole algorithm will loop and restart. 
+  
+  // This way, the car will almost alwasy find a path.  
+
+  
   if(distanceFiltered() >= CLIPPINGDIST){
     forward(100);
     delay(500);
@@ -215,7 +228,7 @@ void loop() {
 
     forward(100);
     right();
-    delay(750);
+    delay(375);
   }
 
 
