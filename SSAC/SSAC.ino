@@ -46,10 +46,6 @@ void setup() {
 
 void loop() {
 
-
-
-  
-
   // These next 4 if statements make up our main algorithm. It has 4 steps. Each step is conditional 
   // Only if the reading  is still less than the clipping distance will the next step go. 
   // Step 1 = Checks if there is space infornt to drive, if there is, drive forward. 
