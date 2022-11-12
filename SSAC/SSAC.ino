@@ -61,16 +61,20 @@ void loop() {
   
   if(currentDistance >= CLIPPINGDIST){
     drive(60);
-    delay(500);
   }
-
   else {
 
-    //Reverse to stop
     stopTurn();
+
+    //Reverse to stop
+    brakeForward();
+
+
     reverse(100);
     delay(500);
-    stop();
+
+    brakeReverse();
+
     delay(500);
     
 
@@ -195,17 +199,18 @@ void checkLeft(int time){
   reverse(100);
   delay(time);
 
-  stop();
+  brakeReverse();
   delay(500);
 
 }
 
 void returnFromLeft(int time){
+
   right();
   drive(100);
   delay(time);
 
-  stop();
+  brakeForward();
   delay(500);
   
 }
@@ -215,7 +220,7 @@ void checkRight(int time){
   reverse(100);
   delay(time);
 
-  stop();
+  brakeReverse();
   delay(500);
 
 }
@@ -225,7 +230,7 @@ void returnFromRight(int time){
   drive(100);
   delay(time);
 
-  stop();
+  brakeForward();
   delay(500);
 }
 
@@ -233,6 +238,9 @@ void OneEighty(int time){
   left();
   drive(100);
   delay(time);
+
+  brakeForward();
+  delay(500);
 
 
 }
@@ -268,6 +276,7 @@ void reverse (int power) {
 
 }
 
+
 void stop() {
 
   digitalWrite(backmotorpin1, LOW);
@@ -276,6 +285,18 @@ void stop() {
   digitalWrite(frontmotorpin1, LOW);
   digitalWrite(frontmotorpin2, LOW);
 
+}
+
+void brakeForward(){
+  reverse(60);
+  delay(50);
+  stop();
+}
+
+void brakeReverse(){
+  drive(60);
+  delay(50);
+  stop();
 }
 
 void left () {
