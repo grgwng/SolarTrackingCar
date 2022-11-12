@@ -272,6 +272,7 @@ void reverse (int power) {
 
 }
 
+
 void stop() {
 
   digitalWrite(backmotorpin1, LOW);
@@ -280,6 +281,18 @@ void stop() {
   digitalWrite(frontmotorpin1, LOW);
   digitalWrite(frontmotorpin2, LOW);
 
+}
+
+void brakeForward(){
+  reverse(60);
+  delay(50);
+  stop();
+}
+
+void brakeReverse(){
+  drive(60);
+  delay(50);
+  stop();
 }
 
 void left () {
