@@ -295,12 +295,14 @@ void brakeForward(){
   reverse(60);
   delay(50);
   stop();
+  delay(500);
 }
 
 void brakeReverse(){
   drive(60);
   delay(50);
   stop();
+  delay(500);
 }
 
 void left () {
