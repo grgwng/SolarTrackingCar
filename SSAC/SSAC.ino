@@ -46,7 +46,7 @@ void setup() {
 
 void drive (int power) { //power takes value between 1-100 (inclusive)
 
-  if (power > 100 && power < 1) {
+  if (power > 100 || power < 1) {
     Serial.println("power out of bounds in DRIVE");
     abort();
   }
@@ -81,6 +81,8 @@ void stop() {
   digitalWrite(frontmotorpin2, LOW);
 
 }
+
+
 
 void left () {
 
@@ -144,11 +146,11 @@ int distanceFiltered(){
   if(x > 1000){
     return pastReading;
 
-  }else{
+  } else {
     pastReading = x;
     return pastReading;
 
-  }
+}
 
 /*
   //Calculate average over 5 most recent scans
@@ -189,68 +191,77 @@ void loop() {
   
   // This way, the car will almost alwasy find a path.  
 
+  int currentDistance = distanceFiltered();
   
-  if(distanceFiltered() >= CLIPPINGDIST){
+  if(currentDistance >= CLIPPINGDIST){
     drive(60);
-    delay(150);
-  }
-
-  if(distanceFiltered() < CLIPPINGDIST){
-    reverse(100);
-    delay(500); 
-    drive(60);
-    delay(50);
-    stop();
-    delay(500);
-
-    left();
-    reverse(100);
-    delay(500);
-
-    drive(60);
-    delay(50);
-    stop();
-    delay(500);
-    
-  }
-
-  if(distanceFiltered() < CLIPPINGDIST){
-    left();
-    drive(100);
-    delay(500);
-
-    reverse(60);
-    delay(50);
-    stop();
-    delay(500);
-
-    right();
-    reverse(100);
-    delay(500);
-
-    drive(60);
-    delay(50);
-    stop();
-    delay(500);
-
-  }
-
-  if(distanceFiltered() < CLIPPINGDIST){
-    right();
-    drive(100);
-    delay(500);
-
-    reverse(60);
-    delay(50);
-    stop();
-    delay(500);
-
-    drive(60);
-    right();
     delay(500);
   }
 
-delay (1000);
+  else {
+
+    while (currentDistance < CLIPPINGDIST) {
+
+    }
+
+    if(distanceFiltered() < CLIPPINGDIST){
+      reverse(100);
+      delay(500); 
+      drive(60);
+      delay(50);
+      stop();
+      delay(500);
+
+      left();
+      reverse(100);
+      delay(500);
+
+      drive(60);
+      delay(50);
+      stop();
+      delay(500);
+      
+    }
+
+    if(distanceFiltered() < CLIPPINGDIST){
+      left();
+      drive(100);
+      delay(500);
+
+      reverse(60);
+      delay(50);
+      stop();
+      delay(500);
+
+      right();
+      reverse(100);
+      delay(500);
+
+      drive(60);
+      delay(50);
+      stop();
+      delay(500);
+
+    }
+
+    if(distanceFiltered() < CLIPPINGDIST){
+      right();
+      drive(100);
+      delay(500);
+
+      reverse(60);
+      delay(50);
+      stop();
+      delay(500);
+
+      drive(60);
+      right();
+      delay(500);
+    }
+  }
+
+//sensor delay
+delay (500);
 
 
 
