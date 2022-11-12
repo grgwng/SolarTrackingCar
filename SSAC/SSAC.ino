@@ -79,7 +79,7 @@ void loop() {
 
     brakeReverse();
 
-    delay(500);
+    // delay(500);
     
 
     while (currentDistance < CLIPPINGDIST) {
@@ -204,7 +204,7 @@ void checkLeft(int time){
   delay(time);
 
   brakeReverse();
-  delay(500);
+  // delay(500);
 
 }
 
@@ -215,7 +215,7 @@ void returnFromLeft(int time){
   delay(time);
 
   brakeForward();
-  delay(500);
+  // delay(500);
   
 }
 
@@ -225,7 +225,7 @@ void checkRight(int time){
   delay(time);
 
   brakeReverse();
-  delay(500);
+  // delay(500);
 
 }
 
@@ -235,7 +235,7 @@ void returnFromRight(int time){
   delay(time);
 
   brakeForward();
-  delay(500);
+  // delay(500);
 }
 
 void OneEighty(int time){
@@ -244,7 +244,7 @@ void OneEighty(int time){
   delay(time);
 
   brakeForward();
-  delay(500);
+  // delay(500);
 
 
 }
