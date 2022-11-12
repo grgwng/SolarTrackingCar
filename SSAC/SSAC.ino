@@ -92,9 +92,9 @@ void loop() {
       if((currentDistance = distanceFiltered()) >= CLIPPINGDIST) return;
 
       //Return to original position
-      returnFromRight(500);
+      // returnFromRight(500);
 
-      OneEighty(325);
+      OneEighty(295);
 
       currentDistance = distanceFiltered();
 
@@ -149,7 +149,7 @@ void returnFromRight(int time){
 }
 
 void OneEighty(int time){
-  left();
+  right();
   drive(100);
   delay(time);
 
