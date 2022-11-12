@@ -45,6 +45,9 @@ void setup() {
 }
 
 void loop() {
+
+
+
   
 
   // These next 4 if statements make up our main algorithm. It has 4 steps. Each step is conditional 
@@ -67,10 +70,42 @@ void loop() {
 
   else {
 
+    //Reverse to stop
+    stopTurn();
+    reverse(100);
+    delay(500);
+    stop();
+    delay(500);
+    
+
     while (currentDistance < CLIPPINGDIST) {
 
-    }
+      checkLeft(500);
 
+      if((currentDistance = distanceFiltered()) >= CLIPPINGDIST) return;
+
+      //Return to original position
+      returnFromLeft(500);
+
+      checkRight(500);
+
+      if((currentDistance = distanceFiltered()) >= CLIPPINGDIST) return;
+
+      //Return to original position
+      returnFromRight(500);
+
+      OneEighty(325);
+
+      currentDistance = distanceFiltered();
+
+    }
+  }
+
+  //sensor delay
+  delay(500);
+
+
+  /*
     if(distanceFiltered() < CLIPPINGDIST){
       reverse(100);
       delay(500); 
@@ -125,10 +160,12 @@ void loop() {
       right();
       delay(500);
     }
-  }
+
+    */
+  
 
 //sensor delay
-delay (500);
+
 
 
 
@@ -154,6 +191,57 @@ delay (500);
   */
 
 }
+
+
+void checkLeft(int time){
+
+  right();
+  reverse(100);
+  delay(time);
+
+  stop();
+  delay(500);
+
+}
+
+void returnFromLeft(int time){
+  right();
+  drive(100);
+  delay(time);
+
+  stop();
+  delay(500);
+  
+}
+
+void checkRight(int time){
+  left();
+  reverse(100);
+  delay(time);
+
+  stop();
+  delay(500);
+
+}
+
+void returnFromRight(int time){
+  left();
+  drive(100);
+  delay(time);
+
+  stop();
+  delay(500);
+}
+
+void OneEighty(int time){
+  left();
+  drive(100);
+  delay(time);
+
+
+}
+
+
 
 //funny functions :)
 void drive (int power) { //power takes value between 1-100 (inclusive)
