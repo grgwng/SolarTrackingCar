@@ -44,16 +44,6 @@ void setup() {
 
 }
 
-//function promises
-void drive (int power);
-void reverse (int power);
-void stop(); //stops turning and cuts power to motor
-void left();
-void right();
-void stopTurn(); //cuts power to turning motor
-void distanceFront();
-void distanceFiltered();
-
 void loop() {
   
 
