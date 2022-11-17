@@ -20,7 +20,7 @@ int sensor1ground = 2;
 
 int currDistance = 0;
 int distReadings[READINGNUM] = {15, 15, 15, 15, 15};
-int pastReading = 100;
+int pastReading = 0;
 
 void setup() {
 
@@ -64,16 +64,16 @@ void loop() {
   }
   else {
 
-    // stopTurn();
+    stopTurn();
 
     //Reverse to stop
     brakeForward();
 
 
-    // reverse(75);
-    // delay(500);
+    reverse(100);
+    delay(500);
 
-    // brakeReverse();
+    brakeReverse();
 
     // delay(500);
     
@@ -110,7 +110,7 @@ void loop() {
 void checkLeft(int time){
 
   right();
-  reverse(75);
+  reverse(100);
   delay(time);
 
   brakeReverse();
@@ -121,7 +121,7 @@ void checkLeft(int time){
 void returnFromLeft(int time){
 
   right();
-  drive(80);
+  drive(100);
   delay(time);
 
   brakeForward();
@@ -131,7 +131,7 @@ void returnFromLeft(int time){
 
 void checkRight(int time){
   left();
-  reverse(75);
+  reverse(100);
   delay(time);
 
   brakeReverse();
@@ -141,7 +141,7 @@ void checkRight(int time){
 
 void returnFromRight(int time){
   left();
-  drive(80);
+  drive(100);
   delay(time);
 
   brakeForward();
@@ -150,7 +150,7 @@ void returnFromRight(int time){
 
 void OneEighty(int time){
   right();
-  drive(80);
+  drive(100);
   delay(time);
 
   brakeForward();
@@ -202,15 +202,15 @@ void stop() {
 }
 
 void brakeForward(){
-  reverse(80);
-  delay(100);
+  reverse(60);
+  delay(50);
   stop();
   delay(500);
 }
 
 void brakeReverse(){
-  drive(80);
-  delay(100);
+  drive(60);
+  delay(50);
   stop();
   delay(500);
 }
