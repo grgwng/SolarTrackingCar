@@ -44,52 +44,16 @@ void setup() {
 }
 
 void loop() {
-    //Counter : 1 = object to right
-    // 2 = object to left and behind you
-    //3 = object everywhere but behind you
-    //0 you are currently okay
 
   int currentDistance = distanceFiltered();
-  
-  if(currentDistance >= 2 * CLIPPINGDIST){
-    drive(80);
-    stateCounter = 0;
+  if(currDistance > 75){
+    drive(75);
+  }else{
+    stop();
     
   }
-  else if(currentDistance >= CLIPPINGDIST + 10){
-    drive(70);
-    stateCounter = 0;
-    
-  }
-  else {
 
-    if(stateCounter == 4){
-      stop();
-    }   
-    else{
-      Serial.println("BRAKEFORWARD");
-      brakeForward();
-    } 
-
-    if(stateCounter != 2 && stateCounter != 3){ //if nothing to our left(as far as we know)
-        turnLeft(); 
-        stateCounter = 1;
-    }
-    
-    if(currentDistance <= CLIPPINGDIST + 20 && stateCounter != 2){  //if nothing behind us (as far as we know)
-        stop();
-        OneEighty();
-        stateCounter = 2;
-    }
-
-    if(currentDistance <= CLIPPINGDIST + 20 && stateCounter != 1 && stateCounter != 3){ //if nothing ()
-        stop();
-        turnRight();
-        stateCounter = 3;
-
-    }
-
-    delay(500);
+  delay(500); 
 
 }
 }
