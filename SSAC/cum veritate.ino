@@ -1,7 +1,7 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-#define CLIPPINGDIST 75
+#define CLIPPINGDIST 100
 
 #define READINGNUM 5
 
@@ -22,6 +22,11 @@ int sensor1ground = 2;
 
 int currDistance = 0;
 int pastReading = 100;
+
+int count1182 = 0;
+
+
+int state = 0;
 
 void setup() {
 
@@ -46,18 +51,35 @@ void setup() {
 void loop() {
 
   int currentDistance = distanceFiltered();
-  if(currDistance > 75){
-    drive(75);
+
+  Serial.println(currentDistance);
+
+  if(currentDistance > CLIPPINGDIST){
+    stopTurn();
+    drive(100);
+    state = 1;
   }else{
-    stop();
+    if(state == 1){
+      brakeForward();
+
+      state=0;
+    }else{
+      left();
+      drive(100);
+      delay(200);
+
+    }
+    
     
   }
 
   delay(500); 
+  Serial.print("State: ");
+  Serial.println(state);
 
 }
-}
 
+/*
 void turnLeft(){
     right();
     reverse(70);
@@ -94,19 +116,19 @@ void OneEighty(){
     stopTurn();
     brakeForward();
 }
-
+*/
 void brakeForward(){
-    reverse(80);
-    delay(100);
+    reverse();
+    delay(300);
     stop();
-    delay(500);
+    //delay(500);
 }
 
 void brakeReverse(){
     drive(80);
     delay(100);
     stop();
-    delay(500);
+    //delay(500);
 }
 
 
@@ -124,17 +146,10 @@ void drive (int power) { //power takes value between 1-100 (inclusive)
 
 }
 
-void reverse (int power) {
-
-  if (power > 100 || power < 1) {
-    Serial.println("power out of bounds in REVERSE");
-    abort();
-  }
-
-  int analogValue = 255 * ((float) 100.0 / power);
+void reverse () {
 
   digitalWrite(backmotorpin1, LOW);
-  analogWrite(backmotorpin2, analogValue);
+  digitalWrite(backmotorpin2, HIGH);
 
 }
 
@@ -190,9 +205,9 @@ int distanceFront () {
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (to and back)
 
   //FOR DEBUGGING PURPOSES
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  //Serial.print("Distance: ");
+  //Serial.print(distance);
+  //Serial.println(" cm");
   return distance;
 
 }
@@ -201,7 +216,27 @@ int distanceFront () {
 int distanceFiltered(){
 
   int x = distanceFront();
-  if(x > 1000){
+
+  if(x != 1182 && x != 1183){
+    count1182 = 0;
+    pastReading = x;
+    return pastReading;
+
+  }else{
+    if(count1182 >= 10){
+      count1182++;
+      return 1182;
+    }else{
+      count1182++;
+      return 0;
+    }
+    
+
+  }
+
+  
+  
+  if(x == 1182 || x == 1183){
     return pastReading;
 
   } else {
