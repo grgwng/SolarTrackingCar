@@ -83,6 +83,8 @@ void loop() {
         delay(50);
         stop();
 
+        delay(500);
+
       }
         // delay(200);
     }
@@ -156,6 +158,8 @@ void reverseUntilFarEnough(){
     reverse();
     delay(75);
     stop();
+
+    delay(500);
   }
 }
 
