@@ -66,10 +66,10 @@ void loop() {
     }else{
       left();
       drive(100);
-      delay(75);
+      delay(200);
       // stop();
       reverse();
-      delay(75);
+      delay(200);
       stop();
 
       for(int i = 0; i < 10; i++){
@@ -79,8 +79,9 @@ void loop() {
           break;
         }
 
+        left();
         drive(100);
-        delay(50);
+        delay(100);
         stop();
 
         delay(500);
@@ -156,7 +157,7 @@ void reverseUntilFarEnough(){
   int currDistance = distanceFiltered();
   while(currDistance < CLIPPINGDIST){
     reverse();
-    delay(75);
+    delay(100);
     stop();
 
     delay(500);
