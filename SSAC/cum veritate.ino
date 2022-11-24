@@ -90,7 +90,7 @@ void loop() {
   }
     
     
-  }
+  
 
   delay(500); 
   Serial.print("State: ");
