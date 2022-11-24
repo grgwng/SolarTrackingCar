@@ -139,7 +139,7 @@ void drive (int power) { //power takes value between 1-100 (inclusive)
     abort();
   }
 
-  int analogValue = 255 * ((float) 100.0 / power);
+  int analogValue = 255 * (power / (float)100.0);
 
   analogWrite(backmotorpin1, analogValue);
   digitalWrite(backmotorpin2, LOW);
