@@ -63,7 +63,7 @@ void loop() {
       brakeForward();
       state=0;
 
-    }else{
+    } else {
 
       while(currentDistance < EXCLIPPINGDIST){ //WHILE WITHIN EXTREME CLIPPING DISTANCE
         //repeteadly reverse right
@@ -76,12 +76,10 @@ void loop() {
 
         currentDistance = distanceFront();
         delay(10);
-
-        
         
       }
 
-      while(currentDistance < CLIPPINGDIST && currentDistance > EXCLIPPINGDIST){ //WHILE WITHIN CLIPPING DISTANCE BUT NOT EXTREME CLIPPING DISTANCE
+      while (currentDistance < CLIPPINGDIST && currentDistance > EXCLIPPINGDIST){ //WHILE WITHIN CLIPPING DISTANCE BUT NOT EXTREME CLIPPING DISTANCE
         //repeatedly turn left
         left();
         drive(100);
