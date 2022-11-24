@@ -50,7 +50,7 @@ void setup() {
 
 void loop() {
 
-  int currentDistance = distanceFiltered();
+  int currentDistance = distanceFront();
 
   Serial.println(currentDistance);
 
@@ -66,14 +66,14 @@ void loop() {
     }else{
       left();
       drive(100);
-      delay(500);
+      delay(700);
       // stop();
       reverse();
-      delay(400);
+      delay(600);
       stop();
 
       for(int i = 0; i < 10; i++){
-        currDistance = distanceFiltered();
+        currDistance = distanceFront();
         if(currDistance < CLIPPINGDIST){
           reverseUntilFarEnough();
           break;
@@ -157,7 +157,7 @@ void brakeReverse(){
 void reverseUntilFarEnough(){
 
   reverse();
-  delay(1000);
+  delay(400);
   stop();
   // int currDistance = distanceFiltered();
   // while(currDistance < CLIPPINGDIST){
