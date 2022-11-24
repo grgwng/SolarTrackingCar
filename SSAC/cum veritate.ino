@@ -66,9 +66,28 @@ void loop() {
     }else{
       left();
       drive(100);
-      delay(200);
+      delay(75);
+      // stop();
+      reverse();
+      delay(75);
+      stop();
 
+      for(int i = 0; i < 10; i++){
+        currDistance = distanceFiltered();
+        if(currDistance < CLIPPINGDIST){
+          reverseUntilFarEnough();
+          break;
+        }
+
+        drive(100);
+        delay(50);
+        stop();
+
+      }
+        // delay(200);
     }
+
+  }
     
     
   }
@@ -129,6 +148,15 @@ void brakeReverse(){
     delay(100);
     stop();
     //delay(500);
+}
+
+void reverseUntilFarEnough(){
+  int currDistance = distanceFiltered();
+  while(currDistance < CLIPPINGDIST){
+    reverse();
+    delay(75);
+    stop();
+  }
 }
 
 
