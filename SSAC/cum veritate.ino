@@ -1,7 +1,8 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-#define CLIPPINGDIST 100
+#define CLIPPINGDIST 80
+#define EXCLIPPINGDIST 40
 
 #define READINGNUM 5
 
@@ -54,20 +55,55 @@ void loop() {
 
   Serial.println(currentDistance);
 
-  if(currentDistance > CLIPPINGDIST){
+  if(currentDistance > CLIPPINGDIST){ //NOTHING IN FRONT OF US -> GO FORWARD
     stopTurn();
     drive(100);
     state = 1;
-  }else{
-    if(state == 1){
-      brakeForward();
+  }else{ //WITHING CLIPPING DISTANCE
 
+    if(state == 1){ //IF WAS GOING FORWARD, CANCEL MOMENTUM
+      brakeForward();
       state=0;
+
     }else{
+
+      while(currentDistance < EXCLIPPINGDIST){ //WHILE WITHIN EXTREME CLIPPING DISTANCE
+        //repeteadly reverse right
+        right();
+        reverse();
+        delay(250);
+        stop();
+
+        delay(250);
+
+        currentDistance = distanceFront();
+        delay(10);
+
+        
+        
+      }
+
+      while(currentDistance < CLIPPINGDIST && currentDistance > EXCLIPPINGDIST){ //WHILE WITHIN CLIPPING DISTANCE BUT NOT EXTREME CLIPPING DISTANCE
+        //repeatedly turn left
+        left();
+        drive(100);
+        delay(250);
+        stop();
+
+        delay(250);
+
+        currentDistance = distanceFront();
+        delay(10);
+
+      }
+
+      /*
+
       left();
       drive(100);
       delay(700);
       // stop();
+      right();
       reverse();
       delay(600);
       stop();
@@ -89,6 +125,8 @@ void loop() {
 
       }
         // delay(200);
+
+      */
     }
 
   }
