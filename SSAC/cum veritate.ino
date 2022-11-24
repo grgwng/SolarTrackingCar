@@ -2,7 +2,7 @@
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
 #define CLIPPINGDIST 80
-#define EXCLIPPINGDIST 40
+#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
 
@@ -52,8 +52,6 @@ void setup() {
 void loop() {
 
   int currentDistance = distanceFront();
-
-  Serial.println(currentDistance);
 
   if(currentDistance > CLIPPINGDIST){ //NOTHING IN FRONT OF US -> GO FORWARD
     stopTurn();
@@ -281,9 +279,9 @@ int distanceFront () {
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (to and back)
 
   //FOR DEBUGGING PURPOSES
-  //Serial.print("Distance: ");
-  //Serial.print(distance);
-  //Serial.println(" cm");
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
   return distance;
 
 }
