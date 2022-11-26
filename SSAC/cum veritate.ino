@@ -2,7 +2,7 @@
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
 #define CLIPPINGDIST 80
-#define EXCLIPPINGDIST 30
+//#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
 
@@ -25,8 +25,6 @@ int currDistance = 0;
 int pastReading = 100;
 
 int count1182 = 0;
-
-
 int state = 0;
 
 void setup() {
@@ -53,84 +51,78 @@ void loop() {
 
   int currentDistance = distanceFront();
 
-  if(currentDistance > CLIPPINGDIST){ //NOTHING IN FRONT OF US -> GO FORWARD
+  if (currentDistance > CLIPPINGDIST) { //NOTHING IN FRONT OF US -> GO FORWARD
+
     stopTurn();
     drive(100);
-    state = 1;
-  }else{ //WITHING CLIPPING DISTANCE
+    state = 1; //we are driving now
 
-    if(state == 1){ //IF WAS GOING FORWARD, CANCEL MOMENTUM
+  } else { //WITHIN CLIPPING DISTANCE
+
+    if (state == 1) { //IF WAS GOING FORWARD, CANCEL MOMENTUM
+
       brakeForward();
-      state=0;
+      state = 0; //we are stationary
 
-    } else {
-
-      while(currentDistance < EXCLIPPINGDIST){ //WHILE WITHIN EXTREME CLIPPING DISTANCE
-        //repeteadly reverse right
-        right();
-        reverse();
-        delay(250);
-        stop();
-
-        delay(250);
-
-        currentDistance = distanceFront();
-        delay(10);
-        
-      }
-
-      while (currentDistance < CLIPPINGDIST && currentDistance > EXCLIPPINGDIST){ //WHILE WITHIN CLIPPING DISTANCE BUT NOT EXTREME CLIPPING DISTANCE
-        //repeatedly turn left
-        left();
-        drive(100);
-        delay(250);
-        stop();
-
-        delay(250);
-
-        currentDistance = distanceFront();
-        delay(10);
-
-      }
-
-      /*
-
-      left();
-      drive(100);
-      delay(700);
-      // stop();
-      right();
-      reverse();
-      delay(600);
-      stop();
-
-      for(int i = 0; i < 10; i++){
-        currDistance = distanceFront();
-        if(currDistance < CLIPPINGDIST){
-          reverseUntilFarEnough();
-          break;
-        }
-
-        left();
-        delay(50);
-        drive(100);
-        delay(250);
-        stop();
-
-        delay(500);
-
-      }
-        // delay(200);
-
-      */
     }
 
-  }
-    
-    
-  
+    //REVERSE TO THE RIGHT
+    right();
+    delay(20);
 
-  delay(500); 
+    reverse();
+    delay(800);
+    brakeReverse();
+
+    delay(200);
+
+    //TURN LEFT
+    left();
+    delay(20);
+
+    drive(100);
+    delay(800);
+    brakeForward();
+
+    delay(200);
+
+    /* while (currentDistance < CLIPPINGDIST) { //WHILE WITHIN EXTREME CLIPPING DISTANCE
+
+      //repeteadly reverse right (turn left)
+      right();
+      delay(20);
+
+      reverse();
+      delay(250);
+      stop();
+
+      delay(250);
+
+      currentDistance = distanceFront();
+      delay(10);
+      
+    }
+
+    while (currentDistance < CLIPPINGDIST && currentDistance > EXCLIPPINGDIST){ //WHILE WITHIN CLIPPING DISTANCE BUT NOT EXTREME CLIPPING DISTANCE
+
+      //repeatedly turn left
+      left();
+      delay(20);
+
+      drive(100);
+      delay(250);
+      stop();
+
+      delay(250);
+
+      currentDistance = distanceFront();
+      delay(10);
+
+    } */
+
+  }
+
+  delay(500);
   Serial.print("State: ");
   Serial.println(state);
 
@@ -176,33 +168,17 @@ void OneEighty(){
 */
 void brakeForward(){
     reverse();
-    delay(300);
+    delay(400); //300 ms for QNC BASEMENT
     stop();
     //delay(500);
 }
 
 void brakeReverse(){
-    drive(80);
-    delay(100);
+    drive(100);
+    delay(400);
     stop();
     //delay(500);
 }
-
-void reverseUntilFarEnough(){
-
-  reverse();
-  delay(400);
-  stop();
-  // int currDistance = distanceFiltered();
-  // while(currDistance < CLIPPINGDIST){
-  //   reverse();
-  //   delay(100);
-  //   stop();
-
-  //   delay(500);
-  // }
-}
-
 
 void drive (int power) { //power takes value between 1-100 (inclusive)
 
@@ -225,7 +201,7 @@ void reverse () {
 
 }
 
-void stop() {
+void stop() { //STOP BACK MOTOR WHEELS AND STOP TURNING
 
   digitalWrite(backmotorpin1, LOW);
   digitalWrite(backmotorpin2, LOW);
