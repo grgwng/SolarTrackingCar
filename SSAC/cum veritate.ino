@@ -126,16 +126,18 @@ int senseLightBack() {
 }
 
 void brakeForward(){
-    reverse();
-    delay(400); //300 ms for QNC BASEMENT
+    // reverse();
+    // delay(400); //300 ms for QNC BASEMENT
     stop();
+    delay(200);
     //delay(500);
 }
 
 void brakeReverse(){
-    drive(100);
-    delay(400);
+    // drive(100);
+    // delay(400);
     stop();
+    delay(200);
     //delay(500);
 }
 
