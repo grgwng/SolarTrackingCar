@@ -16,10 +16,10 @@ int frontmotorpin2 = 13;
 // int turningDistance = 30; //minimum turning distance from wall (cm)
 
 //front ultrasonic sensor
-int sensor1vcc = 5;
-int sensor1trig = 4;
-int sensor1echo = 3;
-int sensor1ground = 2;
+int sensor1vcc = 2;
+int sensor1trig = 3;
+int sensor1echo = 4;
+int sensor1ground = 5;
 
 int currDistance = 0;
 int pastReading = 100;
