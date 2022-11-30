@@ -11,8 +11,8 @@ int stateCounter = 4;
 int backmotorpin1 = 10; //power motor
 int backmotorpin2 = 11;
 
-int frontmotorpin1 = 12; //steering motor
-int frontmotorpin2 = 13;
+int frontmotorpin1 = 6; //steering motor
+int frontmotorpin2 = 7;
 // int turningDistance = 30; //minimum turning distance from wall (cm)
 
 //front ultrasonic sensor
