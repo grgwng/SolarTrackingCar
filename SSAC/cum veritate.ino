@@ -21,6 +21,15 @@ int sensor1trig = 3;
 int sensor1echo = 4;
 int sensor1ground = 5;
 
+//front light sensor
+int frontLightSensorPower = 8;
+int frontLightSensorAnalog = A5;
+
+//back light sensor
+int backLightSensorPower = 9;
+int backLightSensorAnalog = A1;
+
+//misc.
 int currDistance = 0;
 int pastReading = 100;
 
@@ -44,6 +53,12 @@ void setup() {
   pinMode(sensor1ground, OUTPUT);
   digitalWrite(sensor1vcc, HIGH);
   digitalWrite(sensor1ground, LOW);
+
+  //light sensors
+  pinMode(frontLightSensorPower, OUTPUT);
+  digitalWrite(frontLightSensorPower, HIGH);
+  pinMode(backLightSensorPower, OUTPUT);
+  digitalWrite(backLightSensorPower, HIGH);
 
 }
 
@@ -86,40 +101,6 @@ void loop() {
 
     delay(200);
 
-    /* while (currentDistance < CLIPPINGDIST) { //WHILE WITHIN EXTREME CLIPPING DISTANCE
-
-      //repeteadly reverse right (turn left)
-      right();
-      delay(20);
-
-      reverse();
-      delay(250);
-      stop();
-
-      delay(250);
-
-      currentDistance = distanceFront();
-      delay(10);
-      
-    }
-
-    while (currentDistance < CLIPPINGDIST && currentDistance > EXCLIPPINGDIST){ //WHILE WITHIN CLIPPING DISTANCE BUT NOT EXTREME CLIPPING DISTANCE
-
-      //repeatedly turn left
-      left();
-      delay(20);
-
-      drive(100);
-      delay(250);
-      stop();
-
-      delay(250);
-
-      currentDistance = distanceFront();
-      delay(10);
-
-    } */
-
   }
 
   delay(500);
@@ -128,44 +109,22 @@ void loop() {
 
 }
 
-/*
-void turnLeft(){
-    right();
-    reverse(70);
-    delay(700);
-    brakeReverse();
-    left();
-    drive(70);
-    delay(700);
-    stopTurn();
-    brakeForward();
+int senseLightFront() {
+
+  int value = analogRead(frontLightSensorAnalog);
+  Serial.println(value);
+  return value;
+
 }
 
-void turnRight(){
-    left();
-    reverse(70);
-    delay(700);
-    brakeReverse();
-    right();
-    drive(70);
-    delay(700);
-    stopTurn();
-    brakeForward();
+int senseLightBack() {
+
+  int value = analogRead(backLightSensorAnalog);
+  Serial.println(value);
+  return value;
+  
 }
 
-
-void OneEighty(){
-    left();
-    reverse(75);
-    delay(1000);
-    brakeReverse();
-    right();
-    drive(75);
-    delay(1000);
-    stopTurn();
-    brakeForward();
-}
-*/
 void brakeForward(){
     reverse();
     delay(400); //300 ms for QNC BASEMENT
