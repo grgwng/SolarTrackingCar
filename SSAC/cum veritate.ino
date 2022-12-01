@@ -175,7 +175,8 @@ int getLightPos(){
 int senseLightFront() {
 
   int value = analogRead(frontLightSensorAnalog);
-  Serial.println(value);
+  Serial.println("Front light: ");
+  Serial.print(value);
   return value;
 
 }
@@ -183,7 +184,8 @@ int senseLightFront() {
 int senseLightBack() {
 
   int value = analogRead(backLightSensorAnalog);
-  Serial.println(value);
+  Serial.println("Back light: ");
+  Serial.print(value);
   return value;
   
 }
