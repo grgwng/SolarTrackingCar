@@ -2,6 +2,7 @@
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
 #define CLIPPINGDIST 80
+#define LIGHTEPSILON 10
 //#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
@@ -34,7 +35,7 @@ int currDistance = 0;
 int pastReading = 100;
 
 int count1182 = 0;
-int state = 0;
+int state = 1;
 
 void setup() {
 
@@ -65,11 +66,17 @@ void setup() {
 void loop() {
 
   int currentDistance = distanceFront();
+  int lightPos = getLightPos();
 
   if (currentDistance > CLIPPINGDIST) { //NOTHING IN FRONT OF US -> GO FORWARD
-
     stopTurn();
-    drive(100);
+    if(lightPos == 1){
+      drive(100);
+    }else if(lightPos == -1){
+      reverse();
+    }else{
+      stop();
+    }
     state = 1; //we are driving now
 
   } else { //WITHIN CLIPPING DISTANCE
@@ -107,6 +114,19 @@ void loop() {
   Serial.print("State: ");
   Serial.println(state);
 
+}
+
+int getLightPos(){
+  int front = senseLightFront();
+  int back = senseLightBack();
+
+  if(front - back > LIGHTEPSILON){
+    return 1;
+  }else if(front - back < -LIGHTEPSILON){
+    return -1;
+  }else{
+    return 0;
+  }
 }
 
 int senseLightFront() {
