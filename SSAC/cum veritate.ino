@@ -1,8 +1,8 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-#define CLIPPINGDIST 80
-#define LIGHTEPSILON 7
+#define CLIPPINGDIST 40
+#define LIGHTEPSILON 2
 //#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
@@ -36,7 +36,6 @@ int pastReading = 100;
 
 int count1182 = 0;
 int state = 1;
-int lightCount = 0;
 int lightState = 0;
 
 void setup() {
@@ -67,40 +66,42 @@ void setup() {
 
 void loop() {
 
+  delay(200);
+
   int currentDistance = distanceFront();
   int lightPos = getLightPos();
 
   if (currentDistance > CLIPPINGDIST) { //NOTHING IN FRONT OF US -> GO FORWARD
     
     stopTurn();
-    if(lightPos == 1){
+
+    if (lightPos == 1){
+      Serial.println("FORWARD");
       drive(100);
-      lightCount = 0;
-    }else if(lightPos == -1){
+
+    } else if(lightPos == -1) {
+      Serial.println("BACKWARD");
       reverse();
-      lightCount = 0;
-    }else{
-      for (int i = 0; i < 5; i++) { //checks for extraneous readings
+
+    } else {
+
+      for (int i = 0; i < 10; i++) { //checks for extraneous readings
 
         if (getLightPos() != 0){ //If light is no longer equal, exit out of loop
           return;
         }
+        Serial.println("CHECK");
+        delay(250);
 
-        delay(10);
       }
-
+        Serial.println("TURN AROUND");
       //TURN AROUND
         reverse();
         delay(500);
         right();
         delay(1500);
     
-        // delay(20);
-
-        // reverse();
-        // delay(800);
         brakeReverse();
-
         delay(200);
 
         //TURN LEFT
@@ -115,6 +116,7 @@ void loop() {
         
       stop();
     }
+
     state = 1; //we are driving now
 
   } else { //WITHIN CLIPPING DISTANCE
@@ -153,9 +155,8 @@ void loop() {
 
   }
 
-  delay(500);
-  Serial.print("State: ");
-  Serial.println(state);
+  //Serial.print("State: ");
+  //Serial.println(state);
 
 }
 
@@ -175,8 +176,8 @@ int getLightPos(){
 int senseLightFront() {
 
   int value = analogRead(frontLightSensorAnalog);
-  Serial.println("Front light: ");
-  Serial.print(value);
+  Serial.print("Front light: ");
+  Serial.println(value);
   return value;
 
 }
@@ -184,8 +185,8 @@ int senseLightFront() {
 int senseLightBack() {
 
   int value = analogRead(backLightSensorAnalog);
-  Serial.println("Back light: ");
-  Serial.print(value);
+  Serial.print("Back light: ");
+  Serial.println(value);
   return value;
   
 }
