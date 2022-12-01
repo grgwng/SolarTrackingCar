@@ -2,7 +2,7 @@
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
 #define CLIPPINGDIST 80
-#define LIGHTEPSILON 10
+#define LIGHTEPSILON 7
 //#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
@@ -36,6 +36,8 @@ int pastReading = 100;
 
 int count1182 = 0;
 int state = 1;
+int lightCount = 0;
+int lightState = 0;
 
 void setup() {
 
@@ -69,12 +71,48 @@ void loop() {
   int lightPos = getLightPos();
 
   if (currentDistance > CLIPPINGDIST) { //NOTHING IN FRONT OF US -> GO FORWARD
+    
     stopTurn();
     if(lightPos == 1){
       drive(100);
+      lightCount = 0;
     }else if(lightPos == -1){
       reverse();
+      lightCount = 0;
     }else{
+      for (int i = 0; i < 5; i++) { //checks for extraneous readings
+
+        if (getLightPos() != 0){ //If light is no longer equal, exit out of loop
+          return;
+        }
+
+        delay(10);
+      }
+
+      //TURN AROUND
+        reverse();
+        delay(500);
+        right();
+        delay(1500);
+    
+        // delay(20);
+
+        // reverse();
+        // delay(800);
+        brakeReverse();
+
+        delay(200);
+
+        //TURN LEFT
+        left();
+        delay(20);
+
+        drive(100);
+        delay(800);
+        brakeForward();
+        delay(200);
+
+        
       stop();
     }
     state = 1; //we are driving now
@@ -89,11 +127,16 @@ void loop() {
     }
 
     //REVERSE TO THE RIGHT
-    right();
-    delay(20);
 
     reverse();
-    delay(800);
+    delay(500);
+    right();
+    delay(1500);
+    
+    // delay(20);
+
+    // reverse();
+    // delay(800);
     brakeReverse();
 
     delay(200);
