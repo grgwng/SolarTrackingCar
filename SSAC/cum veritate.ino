@@ -1,8 +1,8 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-#define CLIPPINGDIST 50
-#define LIGHTEPSILON 3
+#define CLIPPINGDIST 60
+#define LIGHTEPSILON 5
 //#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
@@ -39,7 +39,7 @@ int currDistance = 0;
 int pastReading = 100;
 
 int count1182 = 0;
-int state = 1;
+int state = 0;
 int lightState = 0;
 
 void setup() {
@@ -83,28 +83,8 @@ void loop() {
 
     if (senseLightTop() >= 80) { //light is on top of the rover
           
-          Serial.println("STAY");
-
-          if (state == 1) { //IF WAS GOING FORWARD, CANCEL MOMENTUM
-
-            brakeForward();
-            state = 0; //we are stationary
-
-          }
-
-          else if (state == -1) { //IF WAS GOING BACKWARDS, CANCEL MOMENTUM
-
-            brakeReverse();
-            state = 0; //we are stationary
-
-          }
-
-          else {
-
-            stop();
-            state = 0;
-
-          }
+      Serial.println("STAY");
+      stateChecker();
 
     } else if (lightPos == 1) {
       Serial.println("FORWARD");
@@ -117,6 +97,8 @@ void loop() {
       state = -1; //reversing now
 
     } else {
+
+      stateChecker();
 
       for (int i = 0; i < 10; i++) { //checks for extraneous readings
 
@@ -146,28 +128,15 @@ void loop() {
         brakeForward();
         delay(200);
 
-        
-      stop();
+        stop();
+
     }
 
   } else { //WITHIN CLIPPING DISTANCE
 
-    if (state == 1) { //IF WAS GOING FORWARD, CANCEL MOMENTUM
-
-      brakeForward();
-      state = 0; //we are stationary
-
-    }
-
-    if (state == -1) { //IF WAS GOING BACKWARDS, CANCEL MOMENTUM
-
-      brakeReverse();
-      state = 0; //we are stationary
-
-    }
+    stateChecker();
 
     //REVERSE TO THE RIGHT
-
     reverse();
     delay(500);
     right();
@@ -195,6 +164,35 @@ void loop() {
   //Serial.print("State: ");
   //Serial.println(state);
 
+}
+
+void stateChecker() {
+  if (state == 1) { //IF WAS GOING FORWARD, CANCEL MOMENTUM
+
+    brakeForward();
+    state = 0; //we are stationary
+
+    delay(1000);
+
+  }
+
+  else if (state == -1) { //IF WAS GOING BACKWARDS, CANCEL MOMENTUM
+
+    brakeReverse();
+    state = 0; //we are stationary
+
+    delay(1000);
+
+  }
+
+  else {
+
+    stop();
+    state = 0;
+
+    delay(1000);
+
+  }
 }
 
 int getLightPos(){
@@ -355,8 +353,6 @@ int distanceFiltered(){
 
   }
 
-  
-  
   if(x == 1182 || x == 1183){
     return pastReading;
 
