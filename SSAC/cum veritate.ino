@@ -1,8 +1,8 @@
 //MOTOR PINS MUST BE ANALOG (for speed control)
 //ANALOG PINS: 3, 5, 6, 9, 10, 11
 
-#define CLIPPINGDIST 40
-#define LIGHTEPSILON 2
+#define CLIPPINGDIST 50
+#define LIGHTEPSILON 3
 //#define EXCLIPPINGDIST 30
 
 #define READINGNUM 5
@@ -28,7 +28,11 @@ int frontLightSensorAnalog = A5;
 
 //back light sensor
 int backLightSensorPower = 9;
-int backLightSensorAnalog = A1;
+int backLightSensorAnalog = A2;
+
+//top light sensor
+int topLightSensorPower = 13;
+int topLightSensorAnalog = A0;
 
 //misc.
 int currDistance = 0;
@@ -61,6 +65,8 @@ void setup() {
   digitalWrite(frontLightSensorPower, HIGH);
   pinMode(backLightSensorPower, OUTPUT);
   digitalWrite(backLightSensorPower, HIGH);
+  pinMode(topLightSensorPower, OUTPUT);
+  digitalWrite(topLightSensorPower, HIGH);
 
 }
 
@@ -75,13 +81,40 @@ void loop() {
     
     stopTurn();
 
-    if (lightPos == 1){
+    if (senseLightTop() >= 80) { //light is on top of the rover
+          
+          Serial.println("STAY");
+
+          if (state == 1) { //IF WAS GOING FORWARD, CANCEL MOMENTUM
+
+            brakeForward();
+            state = 0; //we are stationary
+
+          }
+
+          else if (state == -1) { //IF WAS GOING BACKWARDS, CANCEL MOMENTUM
+
+            brakeReverse();
+            state = 0; //we are stationary
+
+          }
+
+          else {
+
+            stop();
+            state = 0;
+
+          }
+
+    } else if (lightPos == 1) {
       Serial.println("FORWARD");
       drive(100);
+      state = 1; //driving forward now
 
     } else if(lightPos == -1) {
       Serial.println("BACKWARD");
       reverse();
+      state = -1; //reversing now
 
     } else {
 
@@ -91,7 +124,7 @@ void loop() {
           return;
         }
         Serial.println("CHECK");
-        delay(250);
+        delay(300);
 
       }
         Serial.println("TURN AROUND");
@@ -109,7 +142,7 @@ void loop() {
         delay(20);
 
         drive(100);
-        delay(800);
+        delay(1000);
         brakeForward();
         delay(200);
 
@@ -117,13 +150,18 @@ void loop() {
       stop();
     }
 
-    state = 1; //we are driving now
-
   } else { //WITHIN CLIPPING DISTANCE
 
     if (state == 1) { //IF WAS GOING FORWARD, CANCEL MOMENTUM
 
       brakeForward();
+      state = 0; //we are stationary
+
+    }
+
+    if (state == -1) { //IF WAS GOING BACKWARDS, CANCEL MOMENTUM
+
+      brakeReverse();
       state = 0; //we are stationary
 
     }
@@ -148,9 +186,8 @@ void loop() {
     delay(20);
 
     drive(100);
-    delay(800);
+    delay(1000);
     brakeForward();
-
     delay(200);
 
   }
@@ -191,21 +228,30 @@ int senseLightBack() {
   
 }
 
+int senseLightTop() {
+
+  int value = analogRead(topLightSensorAnalog);
+  Serial.print("Top light: ");
+  Serial.println(value);
+  return value;
+
+}
+
 void brakeForward(){
-    // reverse();
-    // delay(400); //300 ms for QNC BASEMENT
+    reverse();
+    delay(100);
     stop();
     delay(200);
     //delay(500);
 }
 
 void brakeReverse(){
-    // drive(100);
-    // delay(400);
+    drive(100);
+    delay(100);
     stop();
     delay(200);
     //delay(500);
-}
+}             
 
 void drive (int power) { //power takes value between 1-100 (inclusive)
 
